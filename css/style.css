@@ -55,6 +55,8 @@ input::placeholder {
 
 .button-bg {
   position: relative;
+  box-shadow: 2px 1px 15px 6px transparent;
+  transition: var(--normal);
 }
 
 .button-bg:before {
@@ -70,6 +72,7 @@ input::placeholder {
   height: 100%;
   border-radius: 5px;
   position: absolute;
+  transition: var(--normal);
 }
 
 .button-bg:after {
@@ -78,6 +81,10 @@ input::placeholder {
   top: 0;
   left: 0;
   z-index: -3;
+}
+
+.button-bg:hover {
+  box-shadow: 2px 1px 15px 6px rgba(47,187,230,0.3);
 }
 
 /* style header
@@ -198,6 +205,12 @@ input::placeholder {
   font-weight: 700;
   font-size: 20px;
   line-height: 23px;
+  transition: var(--normal);
+  box-shadow: 2px 1px 15px 6px transparent;
+}
+
+.header__button:hover {
+  box-shadow: 2px 1px 15px 6px rgba(47,187,230,0.3);
 }
 
 /* style content
@@ -361,6 +374,28 @@ input::placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 1;
+  transition: var(--normal);
+}
+
+.slider-arrow__prev:hover:before, .slider-arrow__next:hover:before  {
+  opacity: 1;
+}
+
+.slider-arrow__prev:before, .slider-arrow__next:before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  z-index: 0;
+  background: var(--color-hover);
+  transform: rotate(180deg);
+  opacity: 0;
+  transition: var(--normal);
+  border-radius: 50%;
 }
 
 .slider-arrow__prev {
@@ -369,6 +404,8 @@ input::placeholder {
 
 .slider-arrow__prev svg, .slider-arrow__next svg {
   width: 12px;
+  position: relative;
+  z-index: 5;
 }
 
 .slider-arrow__prev svg {
@@ -387,11 +424,9 @@ input::placeholder {
   width: 290px;
   height: 414px;
   position: relative;
-  overflow: hidden;
   background-image: url("../img/team/bg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: 50% 0;
   margin-bottom: 30px;
 }
 
@@ -503,6 +538,7 @@ input::placeholder {
 
 .office-list__item > a:hover {
   text-decoration: underline;
+  color: #fff;
 }
 
 /* style popup
@@ -543,6 +579,16 @@ input::placeholder {
   transition: var(--normal);
   width: 100%;
   position: absolute;
+}
+
+.close {
+  position: absolute;
+  top: -25px;
+  left: calc(100% + 10px);
+}
+
+.close svg {
+  width: 20px;
 }
 
 @keyframes visible {
@@ -849,10 +895,17 @@ input::placeholder {
   font-size: 20px;
   line-height: 26px;
   font-family: "Lora", sans-serif;
+  transition: var(--normal);
+  border: 1px solid transparent;
+  border-radius: 5px;
 }
 
 .quiz-nav__next {
   margin-left: auto;
+}
+
+.quiz-nav__next:hover, .quiz-nav__prev:hover {
+  border-color: #0EB6E7;
 }
 
 .quiz-nav__prev:disabled, .quiz-nav__next:disabled {

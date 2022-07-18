@@ -45,15 +45,15 @@
   <nav class="header-menu">
     <ul class="menu">
       <li class="menu__item">
-        <a href="javascript:void(0);" class="menu__link link-anchor active">Адвокаты</a>
+        <a href="#team" class="menu__link link-anchor active">Адвокаты</a>
       </li>
       <li class="menu__item">
-        <a href="javascript:void(0);" class="menu__link link-anchor">Наши офисы</a>
+        <a href="#offices" class="menu__link link-anchor">Наши офисы</a>
       </li>
     </ul>
   </nav>
   <a href="tel:+78003010329" class="header__phone">+7 (800) 301-03-29</a>
-  <button type="button" class="header__button button-feedback button-bg">Заказать звонок</button>
+  <button type="button" class="header__button button-feedback button-bg open-popup open-form">Заказать звонок</button>
 </header>
 <main class="content">
   <section class="preview">
@@ -61,8 +61,8 @@
     <p class="preview__text">Действуем исключительно в интересах клиента, <br/>но в рамках закона. Работаем до
       положительного решения ваших проблем.</p>
     <div class="preview-button">
-      <button type="button" class="preview-button__button-form button-bg">Почувствуй разницу</button>
-      <button type="button" class="preview-button__button-quiz">Узнать стоимость</button>
+      <button type="button" class="preview-button__button-form button-bg open-popup open-form">Почувствуй разницу</button>
+      <button type="button" class="preview-button__button-quiz open-popup" id="open-quiz">Узнать стоимость</button>
       <span class="preview-button__text">Ответьте на 6 вопросов и получите подробный ответ</span>
     </div>
     <ul class="preview-advantages">
@@ -98,7 +98,7 @@
       </li>
     </ul>
   </section>
-  <section class="team">
+  <section class="team" id="team">
     <h2 class="team__title title">Наши адвокаты по делам о банкродстве</h2>
     <div class="team-slider swiper">
       <div class="slider-arrow">
@@ -143,10 +143,10 @@
           <span class="slider__number">Номер в реестре: 61/3776</span>
         </li>
       </ul>
-      <button type="button" class="team__button button-bg">Выбрать специалиста</button>
+      <button type="button" class="team__button button-bg open-popup" id="select-specialist">Выбрать специалиста</button>
     </div>
   </section>
-  <section class="offices">
+  <section class="offices" id="offices">
     <h2 class="office__title title">Филиалы и представительства</h2>
     <ul class="office-list">
       <li class="office-list__item">
@@ -186,8 +186,13 @@
       <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A3c0438b8be4fd6ea16569cd6a4d954bd48013991534f303ae2a894763057f8ec&amp;width=100%25&amp;height=100%&amp;lang=ru_RU&amp;scroll=false"></script>
     </div>
   </section>
-  <section class="popup hide">
+  <section class="popup hide" id="popup">
     <form class="form-feedback" id="form-feedback">
+      <button type="button" class="close">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 19L1 1M19 1L1 19" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
       <h3 class="form-feedback__title">Получить бесплатную консультацию от специалиста</h3>
       <p class="form-feedback__text">Оставьте заявку и наш менеджер свяжется с вами в ближайшее время</p>
       <div class="form-input">
@@ -209,14 +214,19 @@
       </label>
     </form>
     <form class="form-quiz">
+      <button type="button" class="close">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 19L1 1M19 1L1 19" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
       <h3 class="form-quiz__title">Ответьте на 6 вопросов и узнайте можно ли списать ваши долги</h3>
      <div class="form-quiz__progress">
-       <div class="form-quiz__progress-value">Вопрос&nbsp;<span id="progress-value">1</span>&nbsp;из 6</div>
+       <div class="form-quiz__progress-value">Вопрос&nbsp;<span id="progress-value">1</span>&nbsp;из 5</div>
        <div class="progress-color"></div>
        <progress value="1" max="6" id="progress"></progress>
      </div>
       <div class="quiz-slides">
-        <div class="quiz-slide hide">
+        <div class="quiz-slide">
           <h4 class="quiz-slide__title">Общая сумма задолженности</h4>
           <label class="quiz-slide__label">
             <input type="radio" name="steep-1"/>
@@ -224,19 +234,19 @@
           </label>
           <label class="quiz-slide__label">
             <input type="radio" name="steep-1"/>
-            <span>до 200 000</span>
+            <span>200 000 - 500 000</span>
           </label>
           <label class="quiz-slide__label">
             <input type="radio" name="steep-1"/>
-            <span>до 200 000</span>
+            <span>500 000 - 1 000 000</span>
           </label>
           <label class="quiz-slide__label">
             <input type="radio" name="steep-1"/>
-            <span>до 200 000</span>
+            <span>1 000 000 - 5 000 000</span>
           </label>
           <label class="quiz-slide__label">
             <input type="radio" name="steep-1"/>
-            <span>до 200 000</span>
+            <span>более 5 000 000</span>
           </label>
         </div>
         <div class="quiz-slide hide">
@@ -276,42 +286,42 @@
         <div class="quiz-slide hide">
           <h4 class="quiz-slide__title">4. Были ли у вас сделки за последние три года по продаже/дарению недвижимости</h4>
           <label class="quiz-slide__label">
-            <input type="radio" name="steep-1"/>
+            <input type="radio" name="steep-4"/>
             <span>Нет</span>
           </label>
           <label class="quiz-slide__label">
-            <input type="radio" name="steep-1"/>
+            <input type="radio" name="steep-4"/>
             <span>Единственное жилье</span>
           </label>
           <label class="quiz-slide__label">
-            <input type="radio" name="steep-1"/>
+            <input type="radio" name="steep-4"/>
             <span>Есть дополнительная недвижимость </span>
           </label>
         </div>
         <div class="quiz-slide hide">
           <h4 class="quiz-slide__title">5. Вносили ли вы ежемесячные платежи</h4>
           <label class="quiz-slide__label">
-            <input type="radio" name="steep-1"/>
+            <input type="radio" name="steep-5"/>
             <span>нет</span>
           </label>
           <label class="quiz-slide__label">
-            <input type="radio" name="steep-1"/>
+            <input type="radio" name="steep-5"/>
             <span>1 раз</span>
           </label>
           <label class="quiz-slide__label">
-            <input type="radio" name="steep-1"/>
+            <input type="radio" name="steep-5"/>
             <span>2 раза</span>
           </label>
           <label class="quiz-slide__label">
-            <input type="radio" name="steep-1"/>
+            <input type="radio" name="steep-5"/>
             <span>2 раза</span>
           </label>
           <label class="quiz-slide__label">
-            <input type="radio" name="steep-1"/>
+            <input type="radio" name="steep-5"/>
             <span>более 2 раз </span>
           </label>
         </div>
-        <div class="quiz-slide">
+        <div class="quiz-slide hide">
           <h4 class="quiz-slide__title">Введите номер телефона для оценки вашей ситуации</h4>
           <div class="quiz-phone">
             <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -326,11 +336,16 @@
         </div>
       </div>
       <div class="quiz-nav">
-        <button type="button" class="quiz-nav__prev" disabled="disabled">Назад</button>
-        <button type="button" class="quiz-nav__next">Далее</button>
+        <button type="button" class="quiz-nav__prev" id="quiz-prev" disabled="disabled">Назад</button>
+        <button type="button" class="quiz-nav__next" id="quiz-next" disabled="disabled">Далее</button>
       </div>
     </form>
     <form class="form-selection">
+      <button type="button" class="close">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 19L1 1M19 1L1 19" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
       <h4 class="form-selection__title">Оставьте заявку и мы подберем вам лучшего специалиста</h4>
       <div class="form-selection-wrap">
         <div class="selection-input">
@@ -360,10 +375,10 @@
   <nav class="footer-menu">
     <ul class="menu">
       <li class="menu__item">
-        <a href="" class="menu__link">Филиалы</a>
+        <a href="#team" class="menu__link link-anchor">Филиалы</a>
       </li>
       <li class="menu__item">
-        <a href="" class="menu__link">Адвокаты</a>
+        <a href="#offices" class="menu__link link-anchor">Адвокаты</a>
       </li>
     </ul>
   </nav>
@@ -373,7 +388,7 @@
   </div>
   <div class="footer-feedback">
     <a href="tel:+78003010329" class="footer-feedback__link">+7 (800) 301-03-29</a>
-    <button type="button" class="footer-feedback__button">Заказать звонок</button>
+    <button type="button" class="footer-feedback__button open-popup open-form">Заказать звонок</button>
   </div>
 </footer>
 <script src="js/jquery.js"></script>

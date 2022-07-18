@@ -1,7 +1,7 @@
 (function () {
 
   // slider team
-  let slider = new Swiper(".team-slider", {
+  new Swiper(".team-slider", {
     slidesPerView: 4,
     allowTouchMove: true, // on swipe
     loop: true,
@@ -36,7 +36,6 @@
   });
 
 
-
   // lazy scroll
   (function lazyScroll() {
     let links = document.querySelectorAll('.link-anchor');
@@ -51,15 +50,104 @@
           behavior: 'smooth',
           block: 'start'
         });
-
-        if (window.innerWidth <= 750) {
-         setTimeout(function () {
-           document.querySelector('#hamburger').classList.remove('open');
-           document.querySelector('body').classList.toggle('fix');
-         }, 500);
-        }
       })
     }
+  })();
+
+  (function popup () {
+    let popup = document.querySelector('#popup');
+    let body = document.querySelector('body');
+    let buttonsOpenPopup = document.querySelectorAll('.open-popup');
+    let openQuiz = document.querySelector('#open-quiz');
+    let buttonsOpenForm = document.querySelectorAll('.open-form');
+    let openSelectSpecialist = document.querySelector('#select-specialist');
+
+
+
+    function changeVisiblePopup() {
+      popup.classList.toggle('hide');
+      body.classList.toggle('fix');
+    }
+
+
+    for (let i = 0; i < buttonsOpenPopup.length; i++) {
+      buttonsOpenPopup[i].addEventListener('click', changeVisiblePopup);
+    }
+
+    window.addEventListener('click', function (event) {
+      if (event.target.classList.contains('popup') || event.target.closest('.close')) {
+        changeVisiblePopup();
+        popup.classList.remove('quiz', 'selection', 'feedback');
+      }
+    })
+
+    openQuiz.addEventListener('click', function () {
+      popup.classList.add('quiz');
+
+      let items = document.querySelectorAll('.quiz-slide');
+      let prev = document.querySelector('#quiz-prev');
+      let next = document.querySelector('#quiz-next');
+
+      let currentSlide = 1;
+
+      function validation() {
+        let inputs = document.getElementsByName(`steep-${currentSlide}`);
+
+         for (let i = 0; i < inputs.length; i++) {
+           inputs[i].addEventListener('change', function () {
+             next.removeAttribute('disabled');
+           })
+         }
+      }
+
+      validation();
+
+     next.addEventListener('click', function () {
+       if (currentSlide < items.length) {
+         for (let i = 0; i < items.length; i++) {
+           items[i].classList.add('hide');
+         }
+
+         items[currentSlide].classList.remove('hide');
+         next.setAttribute('disabled', true);
+         currentSlide++;
+
+         if (currentSlide > 1) {
+           prev.removeAttribute('disabled');
+         }
+         validation()
+       }
+     })
+
+      prev.addEventListener('click', function () {
+
+        if (currentSlide > 1) {
+          for (let i = 0; i < items.length; i++) {
+            items[i].classList.add('hide');
+          }
+
+          currentSlide--;
+          items[currentSlide].classList.remove('hide');
+          validation();
+
+          if (currentSlide === 1) {
+            prev.setAttribute('disabled', true);
+          }
+        }
+      })
+    })
+
+    for (let i = 0; i < buttonsOpenForm.length; i++) {
+      buttonsOpenForm[i].addEventListener('click', function () {
+        popup.classList.add('feedback');
+      })
+    }
+
+    openSelectSpecialist.addEventListener('click', function () {
+      popup.classList.add('selection');
+    })
+
+
   })();
 
 })();
@@ -68,67 +156,8 @@
 
 
 jQuery(function ($) {
-  function validation(items) {
-    inputs = items;
-
-    let inputStatusValidate = [];
-
-    // first validation form
-    for (let i = 0; i < inputs.length; i++) {
-      if (inputs[i].value == '') {
-        inputs[i].classList.add('no-valid');
-
-        if (!inputs[i].nextElementSibling.classList.contains('valid')) {
-          inputs[i].insertAdjacentHTML('afterend', '<span class="valid">Поле должность быть заполнено</span>');
-        }
-
-        inputStatusValidate.push(false);
-
-      } else {
-        inputs[i].classList.remove('no-valid');
-        inputStatusValidate.push(true);
-        if (inputs[i].nextElementSibling.classList.contains('valid')) {
-          inputs[i].nextElementSibling.remove();
-        }
-      }
-    }
-
-    // second validation form
-    // true = canceled sending
-    if (inputStatusValidate.includes(false)) {
-      return false;
-    }
-  }
 
   // masked inputs phone
   $('.masked').mask('+7 (999) 999 99 99');
 
-  // form of section feedback
-  $('#popup-from').submit(function (event) {
-      event.preventDefault();
-
-      let inputs = this.querySelectorAll('.popup-from__input');
-
-      // validation form
-      validation(inputs);
-
-      if (validation(inputs) === false) {
-        return false;
-      }
-
-      // sending form
-      $.ajax({
-        type: "POST",
-        url: "php/popup-form.php",
-        data: $(this).serialize()
-      }).done(function () {
-        $(this).find('input').val('');
-        $('#popup-from').trigger('reset');
-        $("#popup").addClass("visible");
-        $("body").addClass("fix");
-        $("#popup-thanks").removeClass("hide")
-        $("#popup-from").addClass("hide");
-      });
-    }
-  );
 });
