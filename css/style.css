@@ -590,6 +590,7 @@ input::placeholder {
   justify-content: center;
   align-items: center;
   z-index: 100;
+  background-color: rgba(0, 0, 0, 0.85);
 }
 
 .popup.hide {
@@ -1164,6 +1165,16 @@ input::placeholder {
   .office-list__item > a, .footer-links a, .menu__link {
     font-size: 16px;
   }
+
+  .close {
+    left: auto;
+    right: 0;
+    top: -30px;
+  }
+
+  .form-selection {
+    max-width: calc(100% - 30px);
+  }
 }
 
 @media screen and (max-width: 1180px) {
@@ -1310,6 +1321,41 @@ input::placeholder {
   .slider-arrow {
     margin-bottom: 15px;
   }
+
+  .form-selection {
+    height: auto;
+    max-width: calc(100% - 30px);
+    margin: 0 15px;
+    padding: 25px 30px;
+  }
+
+  .form-selection, .form-selection-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .form-selection-wrap {
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .slider__number {
+    text-align: center;
+  }
+
+  .form-selection__submit {
+    height: 50px;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .form-quiz {
+    max-width: calc(100% - 30px);
+    padding: 50px calc(50% - 260px);
+  }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -1436,6 +1482,53 @@ input::placeholder {
   .office-list {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .form-feedback {
+    max-width: calc(100% - 30px);
+    padding: 20px 30px;
+  }
+
+  .form-quiz {
+    padding: 50px 30px 75px;
+  }
+
+  .form-quiz__title {
+    font-size: 18px;
+  }
+
+  .form-quiz__progress-value {
+    font-size: 14px;
+  }
+
+  .quiz-slide__title, .quiz-slide__label span {
+    font-size: 14px;
+  }
+
+  .quiz-nav {
+    width: calc(100% - 45px);
+  }
+
+  .quiz-nav__prev, .quiz-nav__next {
+    font-size: 16px;
+  }
+
+  .quiz-nav {
+    left: 10px;
+  }
+
+  .quiz-phone {
+    width: 100%;
+    height: 50px;
+  }
+
+  .quiz-slide__label span {
+    display: block;
+  }
+
+  .quiz-slide__label {
+    width: auto;
+  }
+
 }
 
 @media screen and (max-width: 478px) {
@@ -1455,7 +1548,7 @@ input::placeholder {
     text-align: center;
   }
 
-  .title, .preview__title {
+  .title, .preview__title, .form-selection__title {
     font-size: 7vw;
   }
 
@@ -1502,6 +1595,23 @@ input::placeholder {
 
   .preview {
     padding: 110px var(--content-size) 0;
+  }
+
+  .form-input, .form-feedback__submit {
+    height: 50px;
+  }
+
+  .form-feedback__title {
+    font-size: 5vw;
+  }
+
+  .form-feedback__text {
+    font-size: 4vw;
+    margin: 20px 0;
+  }
+
+  .selection-input {
+    height: 50px;
   }
 }
 
