@@ -10,30 +10,41 @@
       nextEl: ".slider-arrow__next",
       prevEl: ".slider-arrow__prev",
     },
-    // breakpoints: {
-    //   320: {
-    //     slidesPerView: 1,
-    //     spaceBetween: 10,
-    //     grid: {
-    //       rows: 3,
-    //     },
-    //   },
-    //   640: {
-    //     slidesPerView: 1,
-    //     spaceBetween: 20,
-    //     grid: {
-    //       rows: 3,
-    //     },
-    //   },
-    //   980: {
-    //     slidesPerView: 2,
-    //     spaceBetween: 15,
-    //     grid: {
-    //       rows: 2,
-    //     },
-    //   }
-    // },
+    breakpoints: {
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 10
+      },
+      400: {
+        slidesPerView: 2,
+        spaceBetween: 10
+      },
+      640: {
+        slidesPerView: 3,
+        spaceBetween: 10
+      },
+      860: {
+        slidesPerView: 3,
+        spaceBetween: 15
+      }
+    },
   });
+
+  // fix header
+  (function fixHeader() {
+    let header = document.querySelector('.header');
+
+    function fixed() {
+      if (window.scrollY > 200 && !header.classList.contains('fixed')) {
+        header.classList.add('fixed');
+      } else if (window.scrollY < 200 && header.classList.contains('fixed')) {
+        header.classList.remove('fixed');
+      }
+    }
+
+    window.addEventListener('scroll', fixed);
+    document.addEventListener('DOMContentLoaded', fixed);
+  })();
 
 
   // lazy scroll
@@ -150,6 +161,19 @@
 
   })();
 
+
+  ymaps.ready(init);
+
+  function init() {
+
+    // Создание экземпляра карты.
+    var myMap = new ymaps.Map('map', {
+        center: [50.443705, 30.530946],
+        zoom: 14
+      }, {
+        searchControlProvider: 'yandex#search'
+      })
+  }
 })();
 
 
