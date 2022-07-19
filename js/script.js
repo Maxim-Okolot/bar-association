@@ -50,6 +50,17 @@
   // lazy scroll
   (function lazyScroll() {
     let links = document.querySelectorAll('.link-anchor');
+    let menuLink = document.querySelectorAll('.menu__link');
+
+    for (let i = 0; i < menuLink.length; i++) {
+      menuLink[i].addEventListener('click', function (e) {
+        for (let x = 0; x < menuLink.length; x++) {
+          menuLink[x].classList.remove('active');
+        }
+
+        e.target.classList.add('active');
+      })
+    }
 
     for (let link of links) {
       link.addEventListener('click', function (e) {
@@ -65,6 +76,7 @@
     }
   })();
 
+
   (function popup () {
     let popup = document.querySelector('#popup');
     let body = document.querySelector('body');
@@ -72,7 +84,6 @@
     let openQuiz = document.querySelector('#open-quiz');
     let buttonsOpenForm = document.querySelectorAll('.open-form');
     let openSelectSpecialist = document.querySelector('#select-specialist');
-
 
 
     function changeVisiblePopup() {
@@ -98,6 +109,8 @@
       let items = document.querySelectorAll('.quiz-slide');
       let prev = document.querySelector('#quiz-prev');
       let next = document.querySelector('#quiz-next');
+      let progress = document.querySelector('.progress-color');
+      let value = document.querySelector("#progress-value");
 
       let currentSlide = 1;
 
@@ -122,11 +135,14 @@
          items[currentSlide].classList.remove('hide');
          next.setAttribute('disabled', true);
          currentSlide++;
+         value.innerHTML = currentSlide;
+
+         progress.style.width = 100 / items.length * currentSlide + "%";
 
          if (currentSlide > 1) {
            prev.removeAttribute('disabled');
          }
-         validation()
+         validation();
        }
      })
 
@@ -157,22 +173,31 @@
     openSelectSpecialist.addEventListener('click', function () {
       popup.classList.add('selection');
     })
-
-
   })();
 
 
   ymaps.ready(init);
 
   function init() {
-
-    // Создание экземпляра карты.
     var myMap = new ymaps.Map('map', {
-        center: [50.443705, 30.530946],
-        zoom: 14
+        center: [55.765631380625905,37.659868629147084],
+        zoom: 18
       }, {
         searchControlProvider: 'yandex#search'
-      })
+      }),
+
+    myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
+      hintContent: '',
+      balloonContent: ''
+    }, {
+      iconLayout: 'default#image',
+      iconImageHref: './img/location.svg',
+      iconImageSize: [68, 68],
+      iconImageOffset: [-5, -38]
+    })
+
+    myMap.geoObjects
+      .add(myPlacemark)
   }
 })();
 
