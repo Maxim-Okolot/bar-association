@@ -85,7 +85,7 @@ jQuery(function ($) {
   })();
 
 
-  (function popup () {
+  (function popup() {
     let popup = document.querySelector('#popup');
     let body = document.querySelector('body');
     let buttonsOpenPopup = document.querySelectorAll('.open-popup');
@@ -178,36 +178,36 @@ jQuery(function ($) {
 
       validation();
 
-     next.addEventListener('click', function () {
-       setTimeout(function () {
-         if (!next.classList.contains('disable')) {
-           if (currentSlide < items.length) {
-             for (let i = 0; i < items.length; i++) {
-               items[i].classList.add('hide');
-             }
+      next.addEventListener('click', function () {
+        setTimeout(function () {
+          if (!next.classList.contains('disable')) {
+            if (currentSlide < items.length) {
+              for (let i = 0; i < items.length; i++) {
+                items[i].classList.add('hide');
+              }
 
-             items[currentSlide].classList.remove('hide');
-             next.classList.add('hide');
+              items[currentSlide].classList.remove('hide');
+              next.classList.add('hide');
 
-             currentSlide++;
+              currentSlide++;
 
-             if (currentSlide < items.length) {
-               validation();
-               value.innerHTML = currentSlide;
-             }
+              if (currentSlide < items.length) {
+                validation();
+                value.innerHTML = currentSlide;
+              }
 
-             progress.style.width = 100 / items.length * currentSlide + "%";
+              progress.style.width = 100 / items.length * currentSlide + "%";
 
-             if (currentSlide > 1 && currentSlide !== items.length) {
-               prev.classList.remove('hide');
-             } else {
-               prev.classList.add('hide');
-             }
+              if (currentSlide > 1 && currentSlide !== items.length) {
+                prev.classList.remove('hide');
+              } else {
+                prev.classList.add('hide');
+              }
 
-           }
-         }
-       }, 50);
-     })
+            }
+          }
+        }, 50);
+      })
 
       prev.addEventListener('click', function () {
         next.classList.remove('hide', 'disable');
@@ -247,34 +247,116 @@ jQuery(function ($) {
     openSelectSpecialist.addEventListener('click', function () {
       popup.classList.add('selection');
     })
-  })();
-
-
+  })()
 
   ymaps.ready(init);
 
-  function init () {
+  function init() {
+
+    // Создание экземпляра карты.
     var myMap = new ymaps.Map('map', {
-        center: [55.76, 37.64],
-        zoom: 10
+        center: [50.443705, 30.530946],
+        zoom: 14
       }, {
         searchControlProvider: 'yandex#search'
       }),
-      objectManager = new ymaps.ObjectManager({
-        clusterize: true,
-        gridSize: 32,
-        clusterDisableClickZoom: true
-      });
+      // Контейнер для меню.
+      menu = $('<ul class="menu"/>');
 
-    objectManager.objects.options.set('preset', 'islands#greenDotIcon');
-    objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
-    myMap.geoObjects.add(objectManager);
+    for (var i = 0, l = groups.length; i < l; i++) {
+      createMenuGroup(groups[i]);
+    }
 
-    $.ajax({
-      url: "https://maxim-okolot.github.io/bar-association/js/locations.json"
-    }).done(function(data) {
-      objectManager.add(data);
-    });
+    function createMenuGroup (group) {
+      // Пункт меню.
+      var menuItem = $('<li><a href="#">' + group.name + '</a></li>'),
+        // Коллекция для геообъектов группы.
+        collection = new ymaps.GeoObjectCollection(null, { preset: group.style }),
+        // Контейнер для подменю.
+        submenu = $('<ul class="submenu"/>');
 
+      // Добавляем коллекцию на карту.
+      myMap.geoObjects.add(collection);
+      // Добавляем подменю.
+      menuItem.append(submenu).appendTo(menu)
+        // Добавляем пункт в меню.
+
+        // По клику удаляем/добавляем коллекцию на карту и скрываем/отображаем подменю.
+        .find('a')
+        .bind('click', function () {
+          if (collection.getParent()) {
+            myMap.geoObjects.remove(collection);
+            submenu.hide();
+          } else {
+            myMap.geoObjects.add(collection);
+            submenu.show();
+          }
+        });
+      for (var j = 0, m = group.items.length; j < m; j++) {
+        createSubMenu(group.items[j], collection, submenu);
+      }
+    }
+
+    function createSubMenu (item, collection, submenu) {
+      // Пункт подменю.
+      var submenuItem = $('<li><a href="#">' + item.name + '</a></li>'),
+        // Создаем метку.
+        placemark = new ymaps.Placemark(item.center, { balloonContent: item.name });
+
+      // Добавляем метку в коллекцию.
+      collection.add(placemark);
+      // Добавляем пункт в подменю.
+      submenuItem
+        .appendTo(submenu)
+        // При клике по пункту подменю открываем/закрываем баллун у метки.
+        .find('a')
+        .bind('click', function () {
+          if (!placemark.balloon.isOpen()) {
+            placemark.balloon.open();
+          } else {
+            placemark.balloon.close();
+          }
+          return false;
+        });
+    }
+
+    // Добавляем меню в тэг BODY.
+    menu.appendTo($('body'));
+    // Выставляем масштаб карты чтобы были видны все группы.
+    myMap.setBounds(myMap.geoObjects.getBounds());
   }
+
+
+  var groups = [
+    {
+      name: "Адреса",
+      style: "islands#redIcon",
+      items: [
+        {
+          center: [50.426472, 30.563022] //г. Москва, ул. Старая Басманная, 15, стр. 2
+        },
+        {
+          center: [50.45351, 30.516489] //г. Калининград, ул. Дмитрия Донского, 17-7
+        },
+        {
+          center: [50.454433, 30.529874] //РК, Астана, ул. Кажымукана, 28
+        },
+        {
+          center: [50.454433, 30.529874] //г. Санкт-Петербург, ул. Днепропетровская, дом 14, офис 26
+        },
+        {
+          center: [50.454433, 30.529874] //. Мурманск, ул. Баумана, д. 47 пом. 50
+        },
+        {
+          center: [50.454433, 30.529874] //225 Broadway Suite 2812 New York, NY 10007
+        },
+        {
+          center: [50.454433, 30.529874] //г. Грозный, ул. Абдаллы 2 Бен Аль-Хусейна (П. Мусорова), 21а
+        },
+        {
+          center: [50.454433, 30.529874] //г. Ростов-на-Дону, пр. Нагибина 40 офис 212
+        }
+      ]
+    }
+  ];
 })();
