@@ -31,6 +31,7 @@
   <link href="css/fonts.css" rel="stylesheet" type="text/css"/>
   <link href="css/normalize.css" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" href="css/swiper.css"/>
+  <link rel="stylesheet" href="css/magnific-popup.css"/>
   <link href="css/style.css" rel="stylesheet" type="text/css"/>
 
   <!-- yandex map -->
@@ -56,7 +57,7 @@
     </ul>
   </nav>
   <a href="tel:+78003010329" class="header__phone">+7 (800) 301-03-29</a>
-  <button type="button" class="header__button button-feedback button-bg open-popup open-form">
+  <button type="button" class="header__button button-feedback button-bg open-popup open-form popup-close">
     <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M19.4624 22H19.3186C2.69784 21.0438 0.337935 7.01462 0.0080565 2.73308C-0.0185239 2.40018 0.0208191 2.06531 0.123831 1.74766C0.226843 1.43 0.391499 1.1358 0.608366 0.881906C0.825232 0.628016 1.09005 0.419428 1.38763 0.268095C1.68522 0.116762 2.00974 0.0256569 2.34258 7.93346e-07H7.00317C7.34198 -0.000327314 7.67308 0.101124 7.95359 0.291215C8.23409 0.481305 8.45108 0.751275 8.57644 1.06615L9.86212 4.23077C9.98591 4.53839 10.0166 4.87561 9.95046 5.20054C9.8843 5.52547 9.72416 5.8238 9.48995 6.05846L7.68831 7.87769C7.96973 9.47756 8.73561 10.9523 9.88233 12.1025C11.0291 13.2527 12.5013 14.0227 14.0998 14.3085L15.9353 12.4892C16.1734 12.2575 16.4744 12.1011 16.8008 12.0394C17.1272 11.9777 17.4645 12.0135 17.7707 12.1423L20.9596 13.42C21.2696 13.5494 21.5341 13.7681 21.7194 14.0484C21.9047 14.3287 22.0023 14.6578 22 14.9938V19.4615C22 20.1348 21.7326 20.7804 21.2567 21.2565C20.7809 21.7326 20.1354 22 19.4624 22ZM2.54558 1.69231C2.32125 1.69231 2.10611 1.78146 1.94748 1.94014C1.78886 2.09883 1.69974 2.31405 1.69974 2.53846V2.60615C2.08883 7.61539 4.58406 19.4615 19.4117 20.3077C19.5228 20.3146 19.6342 20.2994 19.7394 20.2631C19.8447 20.2268 19.9418 20.1701 20.0251 20.0962C20.1084 20.0223 20.1763 19.9327 20.2249 19.8325C20.2735 19.7323 20.3018 19.6235 20.3083 19.5123V14.9938L17.1194 13.7162L14.6919 16.1277L14.2859 16.0769C6.92705 15.1546 5.92895 7.79308 5.92895 7.71692L5.8782 7.31077L8.2804 4.88231L7.01163 1.69231H2.54558Z"/>
     </svg>
@@ -69,7 +70,7 @@
     <p class="preview__text">Действуем исключительно в интересах клиента, <br/>но в рамках закона. Работаем до
       положительного решения ваших проблем.</p>
     <div class="preview-button">
-      <button type="button" class="preview-button__button-form button-bg open-popup open-form">Почувствуй разницу</button>
+      <button type="button" class="preview-button__button-form button-bg open-popup open-form popup-close">Почувствуй разницу</button>
       <button type="button" class="preview-button__button-quiz open-popup" id="open-quiz">Узнать стоимость</button>
       <span class="preview-button__text">Ответьте на 6 вопросов и получите подробный ответ</span>
     </div>
@@ -202,7 +203,12 @@
   </section>
   <section class="popup hide" id="popup">
     <form class="form-feedback" id="form-feedback">
-      <button type="button" class="close">
+      <input type="hidden" name="site_id" value="SITE_ID_VALUE">
+      <input type="hidden" name="form_id" value="FORM_ID_VALUE">
+      <script>document.write('<input type="hidden" name="referer" value="' + window.location + '">')</script>
+      <input type="hidden" name="recaptcha_version" value="">
+      <input type="hidden" name="recaptcha_response" value="">
+      <button type="button" class="close popup-close">
         <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M19 19L1 1M19 1L1 19" stroke="white" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -221,6 +227,7 @@
         </svg>
         <input type="tel" class="form-input__input masked" placeholder="Телефон" title=""/>
       </div>
+      <div class="recaptcha-container"></div>
       <button type="submit" class="form-feedback__submit button-bg">Отправить</button>
       <label class="form-label">
         <input type="checkbox" class="form-label__radio" checked="checked"/>
@@ -228,7 +235,7 @@
       </label>
     </form>
     <form class="form-quiz">
-      <button type="button" class="close">
+      <button type="button" class="close popup-close">
         <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M19 19L1 1M19 1L1 19" stroke="white" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -340,7 +347,7 @@
             <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M19.4624 22.5H19.3186C2.69784 21.5438 0.337935 7.51462 0.0080565 3.23308C-0.0185239 2.90018 0.0208191 2.56531 0.123831 2.24766C0.226843 1.93 0.391499 1.6358 0.608366 1.38191C0.825232 1.12802 1.09005 0.919428 1.38763 0.768095C1.68522 0.616762 2.00974 0.525657 2.34258 0.500001H7.00317C7.34198 0.499673 7.67308 0.601124 7.95359 0.791215C8.23409 0.981305 8.45108 1.25127 8.57644 1.56615L9.86212 4.73077C9.98591 5.03839 10.0166 5.37561 9.95046 5.70054C9.8843 6.02547 9.72416 6.3238 9.48995 6.55846L7.68831 8.37769C7.96973 9.97756 8.73561 11.4523 9.88233 12.6025C11.0291 13.7527 12.5013 14.5227 14.0998 14.8085L15.9353 12.9892C16.1734 12.7575 16.4744 12.6011 16.8008 12.5394C17.1272 12.4777 17.4645 12.5135 17.7707 12.6423L20.9596 13.92C21.2696 14.0494 21.5341 14.2681 21.7194 14.5484C21.9047 14.8287 22.0023 15.1578 22 15.4938V19.9615C22 20.6348 21.7326 21.2804 21.2567 21.7565C20.7809 22.2326 20.1354 22.5 19.4624 22.5ZM2.54558 2.19231C2.32125 2.19231 2.10611 2.28146 1.94748 2.44014C1.78886 2.59883 1.69974 2.81405 1.69974 3.03846V3.10615C2.08883 8.11539 4.58406 19.9615 19.4117 20.8077C19.5228 20.8146 19.6342 20.7994 19.7394 20.7631C19.8447 20.7268 19.9418 20.6701 20.0251 20.5962C20.1084 20.5223 20.1763 20.4327 20.2249 20.3325C20.2735 20.2323 20.3018 20.1235 20.3083 20.0123V15.4938L17.1194 14.2162L14.6919 16.6277L14.2859 16.5769C6.92705 15.6546 5.92895 8.29308 5.92895 8.21692L5.8782 7.81077L8.2804 5.38231L7.01163 2.19231H2.54558Z" fill="#828282"/>
             </svg>
-            <input type="tel" class="quiz-phone__input masked" placeholder="Телефон" name="quiz-phone" title=""/>
+            <input type="tel" class="quiz-phone__input masked" placeholder="Телефон" name="steep-6" title=""/>
           </div>
         </div>
         <div class="quiz-slide hide">
@@ -349,12 +356,17 @@
         </div>
       </div>
       <div class="quiz-nav">
-        <button type="button" class="quiz-nav__prev" id="quiz-prev" disabled="disabled">Назад</button>
-        <button type="button" class="quiz-nav__next" id="quiz-next" disabled="disabled">Далее</button>
+        <button type="button" class="quiz-nav__prev hide" id="quiz-prev">Назад</button>
+        <button type="button" class="quiz-nav__next hide" id="quiz-next">Далее</button>
       </div>
     </form>
     <form class="form-selection">
-      <button type="button" class="close">
+      <input type="hidden" name="site_id" value="SITE_ID_VALUE">
+      <input type="hidden" name="form_id" value="FORM_ID_VALUE">
+      <script>document.write('<input type="hidden" name="referer" value="' + window.location + '">')</script>
+      <input type="hidden" name="recaptcha_version" value="">
+      <input type="hidden" name="recaptcha_response" value="">
+      <button type="button" class="close popup-close">
         <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M19 19L1 1M19 1L1 19" stroke="white" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -367,6 +379,7 @@
           </svg>
           <input type="tel" class="selection-input__input masked" placeholder="Телефон" name="selection-phone" title=""/>
         </div>
+        <div class="recaptcha-container"></div>
         <button type="submit" class="form-selection__submit button-bg">Отправить</button>
         <label class="form-selection__label">
           <input type="checkbox" class="form-selection__checkbox" checked="checked">
@@ -407,6 +420,8 @@
 
 <script src="js/jquery.js"></script>
 <script src="js/swiper.js"></script>
+<script src="js/site.js"></script>
+<script src="js/jquery.magnific-popup.js"></script>
 <script src="js/masked.js"></script>
 <script src="js/script.js"></script>
 </body>

@@ -1,3 +1,11 @@
+jQuery(function ($) {
+
+  // masked inputs phone
+  $('.masked').mask('+7 (999) 999 99 99');
+
+});
+
+
 (function () {
 
   // slider team
@@ -99,6 +107,36 @@
     window.addEventListener('click', function (event) {
       if (event.target.classList.contains('popup') || event.target.closest('.close')) {
         changeVisiblePopup();
+
+        if (popup.classList.contains('quiz')) {
+          let items = document.querySelectorAll('.quiz-slide');
+          let prev = document.querySelector('#quiz-prev');
+          let next = document.querySelector('#quiz-next');
+          let inputs = document.querySelectorAll('.quiz-slides input');
+          let currentSlide = document.querySelector("#progress-value");
+
+          for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].type === "radio") {
+              inputs[i].checked = false;
+            } else {
+              inputs[i].value = '';
+            }
+          }
+
+
+          for (let i = 0; i < items.length; i++) {
+            items[i].classList.add('hide');
+          }
+
+          items[0].classList.remove('hide');
+
+          prev.classList.add('hide');
+          next.classList.add('hide');
+          next.type = 'button';
+
+          currentSlide.innerHTML = 1;
+        }
+
         popup.classList.remove('quiz', 'selection', 'feedback');
       }
     })
@@ -117,48 +155,84 @@
       function validation() {
         let inputs = document.getElementsByName(`steep-${currentSlide}`);
 
-         for (let i = 0; i < inputs.length; i++) {
-           inputs[i].addEventListener('change', function () {
-             next.removeAttribute('disabled');
-           })
-         }
+        if (inputs[0].type !== "radio") {
+          next.classList.add('disable');
+          next.classList.remove('hide');
+
+          window.addEventListener('click', function (event) {
+            if (event.target.classList.contains('quiz-nav__next')) {
+              if (inputs[0].value !== '') {
+                next.type = 'submit';
+                next.classList.remove('disable');
+              }
+            }
+          })
+        } else {
+          for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('change', function () {
+              next.classList.remove('hide');
+            })
+          }
+        }
       }
 
       validation();
 
      next.addEventListener('click', function () {
-       if (currentSlide < items.length) {
-         for (let i = 0; i < items.length; i++) {
-           items[i].classList.add('hide');
+       setTimeout(function () {
+         if (!next.classList.contains('disable')) {
+           if (currentSlide < items.length) {
+             for (let i = 0; i < items.length; i++) {
+               items[i].classList.add('hide');
+             }
+
+             items[currentSlide].classList.remove('hide');
+             next.classList.add('hide');
+
+             currentSlide++;
+
+             if (currentSlide < items.length) {
+               validation();
+               value.innerHTML = currentSlide;
+             }
+
+             progress.style.width = 100 / items.length * currentSlide + "%";
+
+             if (currentSlide > 1 && currentSlide !== items.length) {
+               prev.classList.remove('hide');
+             } else {
+               prev.classList.add('hide');
+             }
+
+           }
          }
-
-         items[currentSlide].classList.remove('hide');
-         next.setAttribute('disabled', true);
-         currentSlide++;
-         value.innerHTML = currentSlide;
-
-         progress.style.width = 100 / items.length * currentSlide + "%";
-
-         if (currentSlide > 1) {
-           prev.removeAttribute('disabled');
-         }
-         validation();
-       }
+       }, 50);
      })
 
       prev.addEventListener('click', function () {
+        next.classList.remove('hide', 'disable');
 
-        if (currentSlide > 1) {
+        if (currentSlide >= 1) {
+
           for (let i = 0; i < items.length; i++) {
             items[i].classList.add('hide');
           }
 
-          currentSlide--;
-          items[currentSlide].classList.remove('hide');
-          validation();
+          let inputs = document.getElementsByName(`steep-${currentSlide}`);
+
+          if (inputs[0].type === "radio") {
+            for (let i = 0; i < inputs.length; i++) {
+              inputs[i].checked = false;
+            }
+          }
+
+          currentSlide = currentSlide - 1;
+          value.innerHTML = currentSlide;
+          progress.style.width = 100 / items.length * currentSlide + "%";
+          items[currentSlide - 1].classList.remove('hide');
 
           if (currentSlide === 1) {
-            prev.setAttribute('disabled', true);
+            prev.classList.add('hide');
           }
         }
       })
@@ -200,13 +274,3 @@
       .add(myPlacemark)
   }
 })();
-
-
-
-
-jQuery(function ($) {
-
-  // masked inputs phone
-  $('.masked').mask('+7 (999) 999 99 99');
-
-});
