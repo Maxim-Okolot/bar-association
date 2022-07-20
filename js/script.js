@@ -250,27 +250,35 @@ jQuery(function ($) {
   })();
 
 
+
   ymaps.ready(init);
 
-  function init() {
+  function init () {
     var myMap = new ymaps.Map('map', {
-        center: [55.765631380625905,37.659868629147084],
-        zoom: 18
+        center: [55.76, 37.64],
+        zoom: 10
       }, {
         searchControlProvider: 'yandex#search'
       }),
+      objectManager = new ymaps.ObjectManager({
+        // Чтобы метки начали кластеризоваться, выставляем опцию.
+        clusterize: true,
+        // ObjectManager принимает те же опции, что и кластеризатор.
+        gridSize: 32,
+        clusterDisableClickZoom: true
+      });
 
-    myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
-      hintContent: '',
-      balloonContent: ''
-    }, {
-      iconLayout: 'default#image',
-      iconImageHref: './img/location.svg',
-      iconImageSize: [68, 68],
-      iconImageOffset: [-5, -38]
-    })
+    // Чтобы задать опции одиночным объектам и кластерам,
+    // обратимся к дочерним коллекциям ObjectManager.
+    objectManager.objects.options.set('preset', 'islands#greenDotIcon');
+    objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
+    myMap.geoObjects.add(objectManager);
 
-    myMap.geoObjects
-      .add(myPlacemark)
+    $.ajax({
+      url: "https://maxim-okolot.github.io/bar-association/js/locations.json"
+    }).done(function(data) {
+      objectManager.add(data);
+    });
+
   }
 })();
